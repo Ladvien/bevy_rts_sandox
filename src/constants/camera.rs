@@ -1,0 +1,2 @@
+pub const CAMERA_ROTATION_SPEED: f32 = 2.5;
+pub const CAMERA_MOVEMENT_SPEED: f32 = 25.0;
