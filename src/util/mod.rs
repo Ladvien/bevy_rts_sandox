@@ -1,4 +1,5 @@
 use bevy::prelude::Vec3;
+use bevy_iso3d_rts_cursor_plugin::Bounds2D;
 
 // pub fn mean(numbers: Vec<f32>) -> f32 {
 //     let sum: f32 = numbers.iter().sum();
@@ -11,13 +12,6 @@ pub fn map_value_to_range(value: f32, in_min: f32, in_max: f32, out_min: f32, ou
 
 pub fn are_positions_near(v1: &Vec3, v2: &Vec3, sensitivity: f32) -> bool {
     v2.cmpgt(*v1 - sensitivity).all() && v2.cmplt(*v1 + sensitivity).all()
-}
-
-pub struct Bounds2D {
-    pub min_x: f32,
-    pub min_z: f32,
-    pub max_x: f32,
-    pub max_z: f32,
 }
 
 pub fn keep_in_bounds(bounds: Bounds2D, mut pos: Vec3, padding: f32) -> Vec3 {

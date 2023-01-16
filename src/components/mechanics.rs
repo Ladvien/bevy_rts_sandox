@@ -56,7 +56,3 @@ pub struct RotationSpeed {
 #[derive(Component, Reflect, Default, Debug)]
 #[reflect(Component)]
 pub struct Rotating;
-
-#[derive(Component, Reflect, Default, Debug)]
-#[reflect(Component)]
-pub struct Ground;

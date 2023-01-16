@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_iso3d_rts_cursor_plugin::{Cursor, Pickable};
 use bevy_rapier3d::prelude::{Collider, Damping, Dominance, LockedAxes, Restitution, RigidBody};
 
 use crate::{
@@ -7,7 +8,6 @@ use crate::{
         constants::GROUND_LEVEL,
         units::{self, SOCIAL_DISTANCE},
     },
-    plugins::{Cursor, Pickable},
     Game,
 };
 

@@ -1,13 +1,12 @@
 use crate::{
-    components::mechanics::Ground,
     constants::{constants::GROUND_LEVEL, plane::*},
-    plugins::RayReflector,
     Game,
 };
 use bevy::{
     pbr::{NotShadowCaster, NotShadowReceiver},
     prelude::*,
 };
+use bevy_iso3d_rts_cursor_plugin::{CursorReflector, RayReflector};
 use bevy_mod_raycast::RaycastMesh;
 use bevy_rapier3d::prelude::RigidBody;
 use bevy_scene_hook::{HookedSceneBundle, SceneHook};
@@ -116,5 +115,5 @@ pub fn plane_setup(
         })
         .insert(NotShadowReceiver)
         .insert(NotShadowCaster)
-        .insert(Ground);
+        .insert(CursorReflector);
 }

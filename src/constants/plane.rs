@@ -1,10 +1,4 @@
-// use bevy::prelude::Vec3;
-
-// use super::constants::GROUND_LEVEL;
-
-use std::ops::Bound;
-
-use crate::util::Bounds2D;
+use bevy_iso3d_rts_cursor_plugin::Bounds2D;
 
 pub const BOARD_SIZE_I: f32 = 3.;
 pub const BOARD_SIZE_J: f32 = 3.;

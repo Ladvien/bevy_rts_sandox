@@ -5,12 +5,13 @@ use bevy::window::PresentMode;
 use bevy::{ecs::schedule::SystemSet, prelude::*};
 use bevy_inspector_egui::WorldInspectorPlugin;
 
-use bevy_mod_raycast::{DefaultPluginState, RaycastMesh, RaycastMethod, RaycastSource};
+use bevy_iso3d_rts_cursor_plugin::{Aesthetics, CursorPlugin, RayReflector};
+use bevy_mod_raycast::RaycastSource;
 use bevy_rapier3d::prelude::{NoUserData, RapierPhysicsPlugin};
 use bevy_rapier3d::render::RapierDebugRenderPlugin;
 use bevy_scene_hook::HookPlugin;
-use components::effects::Blinker;
-use components::game::GameState;
+// use components::effects::Blinker;
+// use components::game::GameState;
 use components::mechanics::{Direction, Lifetime};
 
 use constants::camera::*;
@@ -24,15 +25,27 @@ mod systems;
 mod units;
 mod util;
 
-use plugins::cursor::CursorPlugin;
-use plugins::{AnimationControllerPlugin, RayReflector};
+// use plugins::cursor::CursorPlugin;
+use plugins::AnimationControllerPlugin;
 use systems::effects::blink_system;
 use systems::movement::{adjust_still_units_system, movement_system};
+use systems::rotation::rotate_system;
 use systems::spawn_plane::{plane_setup, Cell};
 use systems::spawn_unit::spawn_unit;
-use systems::{mouse::mouse_system, rotation::rotate_system};
 
 use crate::constants::mechanics::{MOVE_COOLDOWN, ROTATION_SPEED};
+
+#[derive(Clone, Eq, PartialEq, Debug, Hash)]
+pub enum GameState {
+    // NotPlaying,
+    Playing,
+    GameOver,
+}
+
+pub const GAME_X_MIN: f32 = 0.0;
+pub const GAME_Z_MIN: f32 = 0.0;
+pub const GAME_X_MAX: f32 = 24.0;
+pub const GAME_Z_MAX: f32 = 24.0;
 
 fn main() {
     App::new()
@@ -49,7 +62,13 @@ fn main() {
             },
             ..default()
         }))
-        .add_plugin(CursorPlugin)
+        .add_plugin(CursorPlugin {
+            bounds: GAME_BOUNDS,
+            aesthetics: Aesthetics {
+                ground_height: 7.75,
+                ..Default::default()
+            },
+        })
         .add_plugin(HookPlugin)
         .add_plugin(FrameTimeDiagnosticsPlugin)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::default())
@@ -59,7 +78,7 @@ fn main() {
         // .add_startup_system(plane_setup)
         .add_startup_system(setup)
         .add_plugin(WorldInspectorPlugin::new())
-        .add_system(mouse_system)
+        // .add_system(mouse_system)
         .add_state(GameState::Playing)
         .add_system_set(SystemSet::on_enter(GameState::Playing).with_system(plane_setup))
         .add_system_set(
